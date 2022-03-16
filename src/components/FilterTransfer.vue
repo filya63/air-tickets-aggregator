@@ -3,12 +3,12 @@
         <h2 class="transfer__title">Количество пересадок</h2>
         <label
             class="transfer__item"
-            v-for="(transfer, key) in transfers"
+            v-for="( transfer, key ) in transfers"
             :key="key"
         >
             <input
                 type="checkbox"
-                @click="selectCheckbox(transfer)"
+                @click="selectCheckbox( transfer )"
             > {{ transfer }}
         </label>
     </form>
@@ -21,22 +21,22 @@ export default {
     data() {
         return {
             transfers: ['Без пересадок', '1 пересадка', '2 пересадки', '3 пересадки'],
-            selectedCheckboxs: [],
+            selectedTransfers: [],
         };
     },
     methods: {
         selectCheckbox( currentCheckbox ) {
-            const isCheckboxInSelected = this.selectedCheckboxs.includes( currentCheckbox );
+            const isCheckboxInSelected = this.selectedTransfers.includes( currentCheckbox );
 
             if( isCheckboxInSelected ) {
-                this.selectedCheckboxs = this.selectedCheckboxs.filter(selectedCheckbox => selectedCheckbox !== currentCheckbox);
-                this.$emit( SELECTED_TRANSFER, this.selectedCheckboxs );
+                this.selectedTransfers = this.selectedTransfers.filter(selectedTransfer => selectedTransfer !== currentCheckbox);
+                this.$emit( SELECTED_TRANSFER, this.selectedTransfers );
 
                 return;
             }
 
-            this.selectedCheckboxs.push( currentCheckbox );
-            this.$emit( SELECTED_TRANSFER, this.selectedCheckboxs );
+            this.selectedTransfers.push( currentCheckbox );
+            this.$emit( SELECTED_TRANSFER, this.selectedTransfers );
         }
     }
 }
