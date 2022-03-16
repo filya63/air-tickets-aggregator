@@ -51,18 +51,20 @@ export default {
       normalizeDate() {
          this.tickets = this.tickets.map( ( ticket ) =>  {
 
-            // Нормализуем дату билета в одну сторону
+            // Нормализуем даты билета в одну сторону
             const dateTicketThere = new Date(ticket.segments[0].date);
             const fullDateThere = `${dateTicketThere.getDate()}-${dateTicketThere.getMonth() + 1}-${dateTicketThere.getFullYear()}`;
+            ticket.segments[0].duration = this.normalizeMinutes( ticket.segments[0].duration );
             ticket.segments[0].date = {
                minutes: dateTicketThere.getMinutes(),
                hour: dateTicketThere.getHours(),
                fullDate: fullDateThere,
             };
 
-            // Нормализуем дату билета в другую сторону
+            // Нормализуем даты билета в другую сторону
             const dateTicketBack = new Date(ticket.segments[1].date);
             const fullDateBack = `${dateTicketBack.getDate()}-${dateTicketBack.getMonth() + 1}-${dateTicketBack.getFullYear()}`;
+            ticket.segments[1].duration = this.normalizeMinutes( ticket.segments[1].duration );
             ticket.segments[1].date = {
                minutes: dateTicketBack.getMinutes(),
                hour: dateTicketBack.getHours(),
@@ -72,6 +74,12 @@ export default {
             return ticket;
          } );
       },
+
+      normalizeMinutes( initialMinutes ) {
+         const hours = Math.trunc( initialMinutes / 60 );
+         const minutes = initialMinutes % 60;
+         return `${hours} часов ${minutes} минут`;
+      }
    },
    
    async created() {

@@ -12,7 +12,7 @@
                <p class="ticket__information-data">{{segment.date.fullDate}}</p>
             </div>
             <div class="ticket__information">
-               <p class="ticket__information-text">В пути {{segment.duration}} минут</p>
+               <p class="ticket__information-text">В пути {{segment.duration}}</p>
             </div>
             <div class="ticket__information" 
             v-for="(stop, index) in segment.stops"
