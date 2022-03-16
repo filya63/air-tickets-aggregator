@@ -8,6 +8,11 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "browserslist": [
+    "last 2 versions",
+    "not IE 11",
+    "not dead"
+  ],
   "dependencies": {
     "core-js": "^3.6.5",
     "node-sass": "^6.0.0",
