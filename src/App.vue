@@ -1,11 +1,15 @@
 <template>
     <main class="order">
         <aside class="order-aside">
-            <FilterTransfer :transfers="TRANSFER_FILTER"/>
+            <FilterTransfer
+                @selected-transfers="getTransfers"
+            />
         </aside>
         <section>
             <Tabs />
-            <Tickets />
+            <Tickets
+                :selected-transfers="selectedTransfers"
+            />
         </section>
     </main>
 </template>
@@ -21,6 +25,16 @@ export default {
         Tabs,
         Tickets,
     },
+    data() {
+        return {
+            selectedTransfers: [],
+        }
+    },
+    methods: {
+        getTransfers( selectedTransfers ) {
+            this.selectedTransfers = selectedTransfers;
+        }
+    }
 };
 </script>
 
