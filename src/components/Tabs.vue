@@ -66,6 +66,7 @@ export default {
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 600;
+            border: 1px solid #DFE5EC;
             &:last-child {
                 border-radius: 0 5px 5px 0;
             }
@@ -75,5 +76,6 @@ export default {
     .active {
         color: white;
         background: #2196F3;
+        border: 1px solid transparent;
     }
 </style>

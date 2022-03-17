@@ -54,6 +54,7 @@ export default {
         margin-right: 20px;
         border-radius: 5px;
         padding: 20px 0 20px 0;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
         &__title {
             margin-bottom: 20px;
             padding: 0 20px;

@@ -1,7 +1,7 @@
 <template>
    <div class="ticket">
       <div  class="ticket__header">
-         <p class="ticket__header-price">{{ ticket.price }}</p>
+         <p class="ticket__header-price">{{ ticket.price }} руб.</p>
          <p class="ticket__header-code">{{ ticket.carrier }}</p>
       </div>
       <div class="ticket__section"
@@ -32,6 +32,19 @@ export default {
          type: Object,
          default: () => {},
       }
-   }
+   },
 }
 </script>
+
+<style lang="scss">
+   .ticket {
+      background: white;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+      &:last-child {
+         margin-bottom: 0;
+      }
+   }
+</style>

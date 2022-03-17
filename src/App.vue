@@ -50,11 +50,11 @@ export default {
         background-color: #F3F7FA;
         font-family: 'Open Sans';
         color: #4A4A4A;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1.1px;
     }
 
-    h2 {
+    h2, button {
+        text-transform: uppercase;
         font-weight: 600;
     }
 
