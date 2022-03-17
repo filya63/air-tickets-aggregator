@@ -69,8 +69,7 @@ export default {
                 opacity: 0;
                 &:checked+span::before {
                     border-color: #0b76ef;
-                    background-color: #0b76ef;
-                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+                    background-image: url('../assets/Shape.svg');
                 }
                 &+span {
                     display: inline-flex;
@@ -79,8 +78,8 @@ export default {
                     &::before {
                         content: '';
                         display: inline-block;
-                        width: 1em;
-                        height: 1em;
+                        width: 1.3em;
+                        height: 1.3em;
                         flex-shrink: 0;
                         flex-grow: 0;
                         border: 1px solid #adb5bd;
