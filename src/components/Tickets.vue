@@ -48,31 +48,31 @@ export default {
          this.tickets = tickets;
       },
 
-      normalizeDate() {
+      normalizeTicketsInfo() {
          this.tickets = this.tickets.map( ( ticket ) =>  {
 
-            // Нормализуем даты билета в одну сторону
-            const dateTicketThere = new Date(ticket.segments[0].date);
-            const fullDateThere = `${dateTicketThere.getDate()}-${dateTicketThere.getMonth() + 1}-${dateTicketThere.getFullYear()}`;
+            // Нормализуем данные со временем в билете в одну сторону
+            const dateTicketThere = new Date( ticket.segments[0].date );
             ticket.segments[0].duration = this.normalizeMinutes( ticket.segments[0].duration );
-            ticket.segments[0].date = {
-               minutes: dateTicketThere.getMinutes(),
-               hour: dateTicketThere.getHours(),
-               fullDate: fullDateThere,
-            };
+            ticket.segments[0].date = this.normalizeFullDate( dateTicketThere );
 
-            // Нормализуем даты билета в другую сторону
-            const dateTicketBack = new Date(ticket.segments[1].date);
-            const fullDateBack = `${dateTicketBack.getDate()}-${dateTicketBack.getMonth() + 1}-${dateTicketBack.getFullYear()}`;
+            // Нормализуем данные со временем в билете в другую сторону
+            const dateTicketBack = new Date( ticket.segments[1].date );
             ticket.segments[1].duration = this.normalizeMinutes( ticket.segments[1].duration );
-            ticket.segments[1].date = {
-               minutes: dateTicketBack.getMinutes(),
-               hour: dateTicketBack.getHours(),
-               fullDate: fullDateBack,
-            };
+            ticket.segments[1].date = this.normalizeFullDate( dateTicketBack );
 
             return ticket;
          } );
+      },
+
+      normalizeFullDate( date ) {
+         const fullDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+
+         return {
+            minutes: date.getMinutes(),
+            hour: date.getHours(),
+            fullDate,
+         }
       },
 
       normalizeMinutes( initialMinutes ) {
@@ -86,7 +86,7 @@ export default {
       await this.getSearchId();
       await this.getTickets();
 
-      this.normalizeDate();
+      this.normalizeTicketsInfo();
     }
 }
 
