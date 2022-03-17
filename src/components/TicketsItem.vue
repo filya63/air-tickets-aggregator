@@ -2,7 +2,7 @@
    <div class="ticket">
       <div  class="ticket__header">
          <p class="ticket__header-price">{{ ticket.price }} руб.</p>
-         <p class="ticket__header-code">{{ ticket.carrier }}</p>
+         <p class="ticket__header-code">Авиакомпания: {{ ticket.carrier }}</p>
       </div>
       <div class="ticket__section"
          v-for="segment in ticket.segments" 
@@ -45,6 +45,18 @@ export default {
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
       &:last-child {
          margin-bottom: 0;
+      }
+      &__header {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin-bottom: 26px;
+         &-price {
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 24px;
+            color: #2196F3;
+         }
       }
    }
 </style>
