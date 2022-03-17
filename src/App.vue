@@ -6,9 +6,12 @@
             />
         </aside>
         <section>
-            <Tabs />
+            <Tabs
+                @change-active-tab="changeActiveTab"
+            />
             <Tickets
                 :selected-transfers="selectedTransfers"
+                :active-tab="activeTab"
             />
         </section>
     </main>
@@ -28,11 +31,15 @@ export default {
     data() {
         return {
             selectedTransfers: [],
+            activeTab: null,
         }
     },
     methods: {
         getTransfers( selectedTransfers ) {
             this.selectedTransfers = selectedTransfers;
+        },
+        changeActiveTab( activeTab ) {
+            this.activeTab = activeTab;
         }
     }
 };
