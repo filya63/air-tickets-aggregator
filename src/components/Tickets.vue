@@ -18,6 +18,10 @@ export default {
       selectedTransfers: {
          type: Array,
          default: () => [],
+      },
+      activeTab: {
+         type: Boolean,
+         default: () => null,
       }
    },
 
