@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { SELECTED_TRANSFER } from '../constants';
+import { SELECTED_TRANSFER_EVENT } from '../constants';
 
 export default {
     data() {
@@ -34,13 +34,13 @@ export default {
 
             if( isCheckboxInSelected ) {
                 this.selectedTransfers = this.selectedTransfers.filter(selectedTransfer => selectedTransfer !== currentCheckbox);
-                this.$emit( SELECTED_TRANSFER, this.selectedTransfers );
+                this.$emit( SELECTED_TRANSFER_EVENT, this.selectedTransfers );
 
                 return;
             }
 
             this.selectedTransfers.push( currentCheckbox );
-            this.$emit( SELECTED_TRANSFER, this.selectedTransfers );
+            this.$emit( SELECTED_TRANSFER_EVENT, this.selectedTransfers );
         }
     }
 }
