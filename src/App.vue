@@ -68,15 +68,5 @@ export default {
         &-aside {
             height: 100%;
         }
-        &-pagination {
-            &__button {
-                background: #2196F3;
-                border-radius: 5px;
-                padding: 20px 0;
-                width: 100%;
-                color: white;
-                margin-bottom: 20px;
-            }
-        }
     }
 </style>

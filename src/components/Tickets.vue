@@ -5,7 +5,7 @@
       :key="ticket"
    />
    <button
-      class="order-pagination__button"
+      class="tickets-pagination__button"
       @click="showMoreTickets"
    >
       Показать еще 5 билетов
@@ -114,3 +114,18 @@ export default {
 };
 
 </script>
+
+<style lang="scss">
+   .tickets {
+      &-pagination {
+            &__button {
+                background: #2196F3;
+                border-radius: 5px;
+                padding: 20px 0;
+                width: 100%;
+                color: white;
+                margin-bottom: 20px;
+            }
+        }
+   }
+</style>
