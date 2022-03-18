@@ -22,7 +22,7 @@ export default {
       activeTab: {
          type: Boolean,
          default: () => null,
-      }
+      },
    },
 
    data() {
@@ -32,12 +32,6 @@ export default {
          searchId: null,
       };
    },
-
-   // watch: {
-   //    selectedTransfers: function(newValue, oldValue) {
-   //       this.filteredTickets = this.tickets.filter(ticket => ticket)
-   //    },
-   // },
 
    methods: {
       async getSearchId() {
@@ -70,19 +64,25 @@ export default {
       },
 
       normalizeFullDate( date ) {
-         const fullDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+         const minutes = date.getMinutes();
+         const hours = date.getHours();
+         const days = date.getDate();
+         const month = date.getMonth() + 1;
 
          return {
-            minutes: date.getMinutes(),
-            hour: date.getHours(),
-            fullDate,
+            minutes: String(minutes).padStart(2, '0'),
+            hours: String(hours).padStart(2, '0'),
+            days: String(days).padStart(2, '0'),
+            month: String(month).padStart(2, '0'),
+            year: date.getFullYear(),
          }
       },
 
       normalizeMinutes( initialMinutes ) {
          const hours = Math.trunc( initialMinutes / 60 );
          const minutes = initialMinutes % 60;
-         return `${hours} часов ${minutes} минут`;
+
+         return `${hours}ч ${minutes}м`;
       }
    },
    
@@ -91,7 +91,7 @@ export default {
       await this.getTickets();
 
       this.normalizeTicketsInfo();
-    }
-}
+   },
+};
 
 </script>

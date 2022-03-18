@@ -18,7 +18,7 @@
                {{ segment.origin }} - {{ segment.destination }}
             </h3>
             <span class="ticket-informations__item-date">
-               {{ segment.date.fullDate }} {{ segment.date.hours }}:{{ segment.date.minutes }}
+               {{ segment.date.days }}.{{ segment.date.month }}.{{ segment.date.year }} {{ segment.date.hours }}:{{ segment.date.minutes }}
             </span>
          </div>
          <div class="ticket-informations__item">
