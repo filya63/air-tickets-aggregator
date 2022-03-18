@@ -4,6 +4,12 @@
       :ticket="ticket"
       :key="ticket"
    />
+   <button
+      class="order-pagination__button"
+      @click="showMoreTickets"
+   >
+      Показать еще 5 билетов
+   </button>
 </template>
 
 <script>
@@ -27,9 +33,10 @@ export default {
 
    data() {
       return {
-         tickets: [],
-         filteredTickets: [],
+         originalTickets: [],
          searchId: null,
+         tickets: [],
+         renderedTickets: 5,
       };
    },
 
@@ -43,11 +50,22 @@ export default {
       async getTickets() {
          const response = await fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${this.searchId}`);
          const { tickets } = await response.json();
-         this.tickets = tickets;
+         this.originalTickets = tickets;
+      },
+
+      renderFirstTickets() {
+         this.tickets = this.originalTickets.slice(0, 5);
+      },
+
+      showMoreTickets() {
+         const nextTickets = this.originalTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+
+         this.tickets.push( ...nextTickets );
+         this.renderedTickets += 5;
       },
 
       normalizeTicketsInfo() {
-         this.tickets = this.tickets.map( ( ticket ) =>  {
+         this.originalTickets = this.originalTickets.map( ( ticket ) =>  {
 
             // Нормализуем данные со временем в билете в одну сторону
             const dateTicketThere = new Date( ticket.segments[0].date );
@@ -91,6 +109,7 @@ export default {
       await this.getTickets();
 
       this.normalizeTicketsInfo();
+      this.renderFirstTickets();
    },
 };
 

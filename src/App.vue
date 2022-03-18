@@ -28,20 +28,23 @@ export default {
         Tabs,
         Tickets,
     },
+
     data() {
         return {
             selectedTransfers: [],
             activeTab: null,
-        }
+        };
     },
+
     methods: {
         getTransfers( selectedTransfers ) {
             this.selectedTransfers = selectedTransfers;
         },
+
         changeActiveTab( activeTab ) {
             this.activeTab = activeTab;
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -64,6 +67,16 @@ export default {
         margin-top: 20px;
         &-aside {
             height: 100%;
+        }
+        &-pagination {
+            &__button {
+                background: #2196F3;
+                border-radius: 5px;
+                padding: 20px 0;
+                width: 100%;
+                color: white;
+                margin-bottom: 20px;
+            }
         }
     }
 </style>
