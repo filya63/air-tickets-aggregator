@@ -18,6 +18,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Todo
+TODOS.md
+
 # Editor directories and files
 .idea
 .vscode

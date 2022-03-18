@@ -25,6 +25,7 @@ export default {
          type: Array,
          default: () => [],
       },
+      
       activeTab: {
          type: Boolean,
          default: () => null,
