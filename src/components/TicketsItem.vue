@@ -1,25 +1,41 @@
 <template>
    <div class="ticket">
-      <div  class="ticket__header">
-         <p class="ticket__header-price">{{ ticket.price }} руб.</p>
-         <p class="ticket__header-code">Авиакомпания: {{ ticket.carrier }}</p>
+      <div class="ticket-header">
+         <span class="ticket-header__price">
+            {{ ticket.price }} руб.
+         </span>
+         <span class="ticket-header__carrier">
+            Авиакомпания: {{ ticket.carrier }}
+         </span>
       </div>
-      <div class="ticket__section"
-         v-for="segment in ticket.segments" 
+      <div
+         class="ticket-informations"
+         v-for="segment in ticket.segments"
          :key ="segment"
       >
-         <div class="ticket__information">
-            <p class="ticket__information-text">{{ segment.origin }}</p>
-            <p class="ticket__information-data">{{ segment.date.fullDate }}</p>
+         <div class="ticket-informations__item">
+            <h3 class="ticket-informations__item-title">
+               {{ segment.origin }} - {{ segment.destination }}
+            </h3>
+            <span class="ticket-informations__item-date">
+               {{ segment.date.fullDate }} {{ segment.date.hours }}:{{ segment.date.minutes }}
+            </span>
          </div>
-         <div class="ticket__information">
-            <p class="ticket__information-text">В пути {{ segment.duration }}</p>
+         <div class="ticket-informations__item">
+            <h3 class="ticket-informations__item-title">
+               В пути
+            </h3>
+            <span class="ticket-informations__item-duration">
+               {{ segment.duration }}
+            </span>
          </div>
-         <div class="ticket__information" 
-            v-for="(stop, index) in segment.stops"
-            :key="stop"
-         >
-            <p class="ticket__information-text">Пересадка {{ index + 1 }}: {{stop}} </p>
+         <div class="ticket-informations__item">
+            <h3 class="ticket-informations__item-title">
+               {{ segment.stops.length }} пересадки
+            </h3>
+            <span class="ticket-informations__item-stops">
+               {{ segment.stops.join(', ') }}
+            </span>
          </div>
       </div>
    </div>
@@ -31,9 +47,9 @@ export default {
       ticket: {
          type: Object,
          default: () => {},
-      }
+      },
    },
-}
+};
 </script>
 
 <style lang="scss">
@@ -46,16 +62,42 @@ export default {
       &:last-child {
          margin-bottom: 0;
       }
-      &__header {
+      &-header {
          display: flex;
          justify-content: space-between;
          align-items: center;
          margin-bottom: 26px;
-         &-price {
+         &__price {
             font-weight: 600;
             font-size: 24px;
             line-height: 24px;
             color: #2196F3;
+         }
+      }
+      &-informations {
+         display: flex;
+         margin-bottom: 20px;
+         &:last-child {
+            margin-bottom: 0;
+         }
+         &__item {
+            display: flex;
+            flex-direction: column;
+            margin-right: 90px;
+            margin-bottom: 10px;
+            text-align: center;
+            span {
+               font-weight: 600;
+            }
+            &-title {
+               color: #A0B0B9;
+               text-transform: uppercase;
+               margin-bottom: 5px;
+            }
+            &:last-child {
+               margin-right: 0;
+               margin-bottom: 0;
+            }
          }
       }
    }

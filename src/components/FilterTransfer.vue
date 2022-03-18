@@ -1,6 +1,8 @@
 <template>
     <form class="transfer">
-        <h2 class="transfer__title">Количество пересадок</h2>
+        <h2 class="transfer__title">
+            Количество пересадок
+        </h2>
         <label
             class="transfer__item"
             v-for="( transfer, key ) in transfers"
@@ -28,6 +30,7 @@ export default {
             selectedTransfers: [],
         };
     },
+
     methods: {
         selectCheckbox( currentCheckbox ) {
             const isCheckboxInSelected = this.selectedTransfers.includes( currentCheckbox );
@@ -41,9 +44,9 @@ export default {
 
             this.selectedTransfers.push( currentCheckbox );
             this.$emit( SELECTED_TRANSFER_EVENT, this.selectedTransfers );
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss">

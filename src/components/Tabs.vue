@@ -1,7 +1,19 @@
 <template>
     <nav class="tabs">
-        <button :class="isTabLowCost" class="tabs__item" @click="onClickLowCostTickets">Самый дешевый</button>
-        <button :class="isTabFast" class="tabs__item" @click="onClickFastTickets">Самый быстрый</button>
+        <button
+            :class="isTabLowCost"
+            class="tabs__item"
+            @click="onClickLowCostTickets"
+        >
+            Самый дешевый
+        </button>
+        <button
+            :class="isTabFast"
+            class="tabs__item"
+            @click="onClickFastTickets"
+        >
+            Самый быстрый
+        </button>
     </nav>
 </template>
 
@@ -12,8 +24,9 @@ export default {
     data() {
         return {
             activeTab: null,
-        }
+        };
     },
+
     methods: {
         onClickLowCostTickets() {
             if( this.activeTab === 'tab-low-cost' ) {
@@ -26,6 +39,7 @@ export default {
             this.activeTab = 'tab-low-cost';
             this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
         },
+
         onClickFastTickets() {
             if( this.activeTab === 'tab-fast' ) {
                 this.activeTab = null;
@@ -38,19 +52,21 @@ export default {
             this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
         },
     },
+
     computed: {
         isTabLowCost() {
             return this.activeTab === 'tab-low-cost'
                 ? 'active'
                 : false
         },
+
         isTabFast() {
             return this.activeTab === 'tab-fast'
                 ? 'active'
                 : false
         },
     },
-}
+};
 </script>
 
 <style lang="scss">
@@ -58,6 +74,7 @@ export default {
         margin-bottom: 20px;
         &__item {
             height: 50px;
+            width: 50%;
             background: white;
             border-radius: 5px 0 0 5px;
             padding: 0 20px;
