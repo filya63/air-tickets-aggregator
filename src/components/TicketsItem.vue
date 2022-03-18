@@ -31,7 +31,7 @@
          </div>
          <div class="ticket-informations__item">
             <h3 class="ticket-informations__item-title">
-               {{ segment.stops.length }} пересадки
+               {{ normalizeNumberStopsText( segment.stops.length ) }}
             </h3>
             <span class="ticket-informations__item-stops">
                {{ segment.stops.join(', ') }}
@@ -47,6 +47,21 @@ export default {
       ticket: {
          type: Object,
          default: () => {},
+      },
+   },
+
+   methods: {
+      normalizeNumberStopsText( number ) {
+         switch( number ) {
+            case 0:
+               return 'Без пересадок';
+            case 1:
+               return '1 пересадка';
+            case 2:
+               return '2 пересадки';
+            case 3:
+               return '3 пересадки';
+         }
       },
    },
 };
