@@ -25,9 +25,9 @@ export default {
          type: Array,
          default: () => [],
       },
-      
+
       activeTab: {
-         type: Boolean,
+         type: String,
          default: () => null,
       },
    },
@@ -39,6 +39,29 @@ export default {
          tickets: [],
          renderedTickets: 5,
       };
+   },
+
+   watch: {
+      activeTab( newTab ) {
+         if( !newTab ) {
+            return;
+         }
+
+         this.sortTickets();
+         this.renderFirstTickets();
+      },
+
+      selectedTransfers: {
+         handler( newSelectedTransfers ) {
+            if( !newSelectedTransfers.length ) {
+               return;
+            }
+
+            this.sortTickets();
+            this.renderFirstTickets();
+         },
+         deep: true,
+      },
    },
 
    methods: {
@@ -55,7 +78,8 @@ export default {
       },
 
       renderFirstTickets() {
-         this.tickets = this.originalTickets.slice(0, 5);
+         this.renderedTickets = 5;
+         this.tickets = this.originalTickets.slice( 0, this.renderedTickets );
       },
 
       showMoreTickets() {
@@ -65,17 +89,21 @@ export default {
          this.renderedTickets += 5;
       },
 
+      sortTickets() {
+         console.log('НУЖНО ОТСОРТИРОВАТЬ БИЛЕТЫ!');
+      },
+
       normalizeTicketsInfo() {
          this.originalTickets = this.originalTickets.map( ( ticket ) =>  {
 
             // Нормализуем данные со временем в билете в одну сторону
             const dateTicketThere = new Date( ticket.segments[0].date );
-            ticket.segments[0].duration = this.normalizeMinutes( ticket.segments[0].duration );
+            ticket.segments[0].normalizedDuration = this.normalizeMinutes( ticket.segments[0].duration );
             ticket.segments[0].date = this.normalizeFullDate( dateTicketThere );
 
             // Нормализуем данные со временем в билете в другую сторону
             const dateTicketBack = new Date( ticket.segments[1].date );
-            ticket.segments[1].duration = this.normalizeMinutes( ticket.segments[1].duration );
+            ticket.segments[1].normalizedDuration = this.normalizeMinutes( ticket.segments[1].duration );
             ticket.segments[1].date = this.normalizeFullDate( dateTicketBack );
 
             return ticket;

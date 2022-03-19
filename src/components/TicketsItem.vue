@@ -26,7 +26,7 @@
                В пути
             </h3>
             <span class="ticket-informations__item-duration">
-               {{ segment.duration }}
+               {{ segment.normalizedDuration }}
             </span>
          </div>
          <div class="ticket-informations__item">
