@@ -38,7 +38,15 @@ export default {
 
     methods: {
         getTransfers( selectedTransfers ) {
-            this.selectedTransfers = selectedTransfers;
+            const isCheckboxInSelected = this.selectedTransfers.includes( selectedTransfers );
+
+            if( isCheckboxInSelected ) {
+                this.selectedTransfers = this.selectedTransfers.filter(selectedTransfer => selectedTransfer !== selectedTransfers);
+
+                return;
+            }
+
+            this.selectedTransfers.push( selectedTransfers );
         },
 
         changeActiveTab( activeTab ) {

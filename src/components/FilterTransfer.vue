@@ -27,23 +27,12 @@ export default {
     data() {
         return {
             transfers: ['Без пересадок', '1 пересадка', '2 пересадки', '3 пересадки'],
-            selectedTransfers: [],
         };
     },
 
     methods: {
         selectCheckbox( currentCheckbox ) {
-            const isCheckboxInSelected = this.selectedTransfers.includes( currentCheckbox );
-
-            if( isCheckboxInSelected ) {
-                this.selectedTransfers = this.selectedTransfers.filter(selectedTransfer => selectedTransfer !== currentCheckbox);
-                this.$emit( SELECTED_TRANSFER_EVENT, this.selectedTransfers );
-
-                return;
-            }
-
-            this.selectedTransfers.push( currentCheckbox );
-            this.$emit( SELECTED_TRANSFER_EVENT, this.selectedTransfers );
+            this.$emit( SELECTED_TRANSFER_EVENT, currentCheckbox );
         },
     },
 };
