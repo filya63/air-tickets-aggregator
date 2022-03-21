@@ -1,19 +1,27 @@
 <template>
-   <TicketsItem
-      v-for="ticket in tickets"
-      :ticket="ticket"
-      :key="ticket"
-   />
-   <button
-      class="tickets-pagination__button"
-      @click="showMoreTickets"
-   >
-      Показать еще 5 билетов
-   </button>
+   <template v-if="!errorMessage">
+      <TicketsItem
+         v-for="ticket in tickets"
+         :ticket="ticket"
+         :key="ticket"
+      />
+      <button
+         class="tickets-pagination__button"
+         @click="showMoreTickets"
+      >
+         Показать еще 5 билетов
+      </button>
+   </template>
+   <template v-else>
+      <div>
+         {{ errorMessage }}
+      </div>
+   </template>
 </template>
 
 <script>
 import TicketsItem from './TicketsItem.vue';
+import api from '../api';
 
 export default {
    components: {
@@ -39,6 +47,7 @@ export default {
          tickets: [],
          filteredTickets: [],
          renderedTickets: 5,
+         errorMessage: '',
       };
    },
 
@@ -73,14 +82,19 @@ export default {
 
    methods: {
       async getSearchId() {
-         const response = await fetch('https://front-test.beta.aviasales.ru/search');
-         const { searchId } = await response.json();
+         const searchId = await api.getSearchId();
          this.searchId = searchId;
       },
 
       async getTickets() {
-         const response = await fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${this.searchId}`);
-         const { tickets } = await response.json();
+         let tickets;
+
+         try {
+            tickets = await api.getTickets( this.searchId );
+         } catch( error ) {
+            this.errorMessage = error;
+         }
+
          this.originalTickets = tickets;
       },
 
