@@ -52,7 +52,7 @@ export default {
             this.filteredTickets = [];
          }
 
-         this.sortTickets();
+         this.sortOrFilterTickets();
          this.renderFirstTickets();
       },
 
@@ -64,7 +64,7 @@ export default {
                return;
             }
 
-            this.sortTickets();
+            this.sortOrFilterTickets();
             this.renderFirstTickets();
          },
          deep: true,
@@ -107,40 +107,37 @@ export default {
          this.renderedTickets += 5;
       },
 
-      sortTickets() {
+      sortOrFilterTickets() {
          if( this.activeTab ) {
             if( this.selectedTransfers.length ) {
-               this.filteredTickets = this.originalTickets.filter(( ticket ) => {
-                  return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
-               });
-
-               this.filteredTickets.sort(( nextTicket, currentTicket ) => {
-                  if( this.activeTab === 'tab-low-cost' ) {
-                     return nextTicket.price - currentTicket.price;
-                  }
-
-                  return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
-               });
+               this.filterTransfers();
+               this.sortTickets('filteredTickets');
 
                return;
             }
 
-            // Сортировать по activeTab
-            this.originalTickets.sort(( nextTicket, currentTicket ) => {
-               if( this.activeTab === 'tab-low-cost' ) {
-                  return nextTicket.price - currentTicket.price;
-               }
-
-               return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
-            });
+            this.sortTickets('originalTickets');
          }
 
          if( this.selectedTransfers.length ) {
-            // Фильтрация билетов по transfers
-            this.filteredTickets = this.originalTickets.filter(( ticket ) => {
-               return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
-            });
+            this.filterTransfers();
          }
+      },
+
+      sortTickets( tickets ) {
+         this[tickets].sort(( nextTicket, currentTicket ) => {
+            if( this.activeTab === 'tab-low-cost' ) {
+               return nextTicket.price - currentTicket.price;
+            }
+
+            return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
+         });
+      },
+
+      filterTransfers() {
+         this.filteredTickets = this.originalTickets.filter(( ticket ) => {
+            return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
+         });
       },
 
       normalizeTicketsInfo() {
