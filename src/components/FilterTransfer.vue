@@ -5,13 +5,13 @@
         </h2>
         <label
             class="transfer__item"
-            v-for="( transfer, key ) in transfers"
-            :key="key"
+            v-for="( transfer, index ) in transfers"
+            :key="index"
         >
             <input
                 class="transfer__item_checkbox"
                 type="checkbox"
-                @click="selectCheckbox( transfer )"
+                @click="selectCheckbox( index )"
             >
             <span class="transfer__item_text">
                 {{ transfer }}

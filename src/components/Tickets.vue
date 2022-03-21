@@ -90,7 +90,29 @@ export default {
       },
 
       sortTickets() {
-         console.log('НУЖНО ОТСОРТИРОВАТЬ БИЛЕТЫ!');
+         if( this.activeTab ) {
+            if( this.selectedTransfers.length ) {
+               this.tickets = this.originalTickets.sort(); // Сортировать по activeTab и фильтрация transfers
+
+               return;
+            }
+
+            // Сортировать по activeTab
+            this.tickets = this.originalTickets.sort(( nextTicket, currentTicket ) => {
+               if( this.activeTab === 'tab-low-cost' ) {
+                  return nextTicket.price - currentTicket.price;
+               }
+
+               return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
+            });
+         }
+
+         if( this.selectedTransfers.length ) {
+            // Фильтрация билетов по transfers
+            this.tickets = this.originalTickets.filter(( ticket ) => {
+               return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
+            });
+         }
       },
 
       normalizeTicketsInfo() {
