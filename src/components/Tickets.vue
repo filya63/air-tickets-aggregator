@@ -37,6 +37,7 @@ export default {
          originalTickets: [],
          searchId: null,
          tickets: [],
+         filteredTickets: [],
          renderedTickets: 5,
       };
    },
@@ -47,13 +48,19 @@ export default {
             return;
          }
 
+         if( !this.selectedTransfers.length ) {
+            this.filteredTickets = [];
+         }
+
          this.sortTickets();
          this.renderFirstTickets();
       },
 
       selectedTransfers: {
          handler( newSelectedTransfers ) {
-            if( !newSelectedTransfers.length ) {
+            if( !newSelectedTransfers.length && !this.activeTab ) {
+               this.filteredTickets = [];
+
                return;
             }
 
@@ -79,11 +86,22 @@ export default {
 
       renderFirstTickets() {
          this.renderedTickets = 5;
+
+         if( this.filteredTickets.length ) {
+            this.tickets = this.filteredTickets.slice( 0, this.renderedTickets );
+
+            return;
+         }
+
          this.tickets = this.originalTickets.slice( 0, this.renderedTickets );
       },
 
       showMoreTickets() {
-         const nextTickets = this.originalTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+         let nextTickets = this.originalTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+
+         if( this.filteredTickets.length ) {
+            nextTickets = this.filteredTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+         }
 
          this.tickets.push( ...nextTickets );
          this.renderedTickets += 5;
@@ -92,13 +110,23 @@ export default {
       sortTickets() {
          if( this.activeTab ) {
             if( this.selectedTransfers.length ) {
-               this.tickets = this.originalTickets.sort(); // Сортировать по activeTab и фильтрация transfers
+               this.filteredTickets = this.originalTickets.filter(( ticket ) => {
+                  return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
+               });
+
+               this.filteredTickets.sort(( nextTicket, currentTicket ) => {
+                  if( this.activeTab === 'tab-low-cost' ) {
+                     return nextTicket.price - currentTicket.price;
+                  }
+
+                  return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
+               });
 
                return;
             }
 
             // Сортировать по activeTab
-            this.tickets = this.originalTickets.sort(( nextTicket, currentTicket ) => {
+            this.originalTickets.sort(( nextTicket, currentTicket ) => {
                if( this.activeTab === 'tab-low-cost' ) {
                   return nextTicket.price - currentTicket.price;
                }
@@ -109,7 +137,7 @@ export default {
 
          if( this.selectedTransfers.length ) {
             // Фильтрация билетов по transfers
-            this.tickets = this.originalTickets.filter(( ticket ) => {
+            this.filteredTickets = this.originalTickets.filter(( ticket ) => {
                return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
             });
          }
