@@ -71,10 +71,9 @@ export default {
 
 <style lang="scss">
     .tabs {
-        margin-bottom: 20px;
         &__item {
             height: 50px;
-            width: 50%;
+            width: calc(50% - 1px);
             background: white;
             border-radius: 5px 0 0 5px;
             padding: 0 20px;

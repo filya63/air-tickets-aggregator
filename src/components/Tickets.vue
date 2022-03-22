@@ -1,32 +1,34 @@
 <template>
-   <template v-if="!errorMessage">
+   <template v-if="!isErrorMessage">
       <TicketsItem
          v-for="ticket in tickets"
          :ticket="ticket"
          :key="ticket"
       />
-      <button
-         class="tickets-pagination__button"
-         @click="showMoreTickets"
-      >
-         Показать еще 5 билетов
-      </button>
    </template>
-   <template v-else>
-      <div>
-         {{ errorMessage }}
-      </div>
-   </template>
+   <ErrorMessage
+      v-if="isErrorMessage"
+      :error-message="errorMessage"
+   />
+   <button
+      class="tickets-pagination__button"
+      :disabled="isErrorMessage"
+      @click="showMoreTickets"
+   >
+      Показать еще 5 билетов
+   </button>
 </template>
 
 <script>
 import TicketsItem from './TicketsItem.vue';
 import api from '../api';
+import ErrorMessage from './ErrorMessage.vue';
 
 export default {
    components: {
-      TicketsItem,
-   },
+    TicketsItem,
+    ErrorMessage,
+},
 
    props: {
       selectedTransfers: {
@@ -74,6 +76,12 @@ export default {
          },
          deep: true,
       },
+   },
+
+   computed: {
+      isErrorMessage() {
+         return !!this.errorMessage;
+      }
    },
 
    methods: {
@@ -205,12 +213,15 @@ export default {
    .tickets {
       &-pagination {
             &__button {
-                background: #2196F3;
-                border-radius: 5px;
-                padding: 20px 0;
-                width: 100%;
-                color: white;
-                margin-bottom: 20px;
+               background: #2196F3;
+               &:disabled {
+                  background: #C0C0C0;
+               }
+               border-radius: 5px;
+               padding: 20px 0;
+               width: 100%;
+               color: white;
+               margin-bottom: 20px;
             }
         }
    }

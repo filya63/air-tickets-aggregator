@@ -71,12 +71,10 @@ export default {
    .ticket {
       background: white;
       border-radius: 5px;
+      margin-top: 20px;
       margin-bottom: 20px;
       padding: 20px;
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-      &:last-child {
-         margin-bottom: 0;
-      }
       &-header {
          display: flex;
          justify-content: space-between;

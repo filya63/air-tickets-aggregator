@@ -68,6 +68,9 @@ export default {
         text-transform: uppercase;
         font-weight: 600;
     }
+    button:disabled {
+        cursor: not-allowed;
+    }
 
     .order {
         display: flex;
