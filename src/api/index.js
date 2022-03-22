@@ -1,5 +1,5 @@
 export default {
-    getSearchId: async () => {
+    async getSearchId() {
         try {
             const response = await fetch('https://front-test.beta.aviasales.ru/search');
             const { searchId } = await response.json();
@@ -9,7 +9,7 @@ export default {
         }
     },
 
-    getTickets: async ( searchId ) => {
+    async getTickets( searchId ) {
         try {
             const response = await fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`);
             const { tickets } = await response.json();
