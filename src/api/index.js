@@ -5,7 +5,7 @@ export default {
         try {
             response = await fetch('https://front-test.beta.aviasales.ru/search');
         } catch( error ) {
-            throw new Error( error );
+            throw new Error( error.message );
         }
 
         const { searchId } = await response.json();

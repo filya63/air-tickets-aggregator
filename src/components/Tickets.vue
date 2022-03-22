@@ -52,28 +52,24 @@ export default {
    },
 
    watch: {
-      activeTab( newTab ) {
-         if( !newTab ) {
-            return;
-         }
-
+      activeTab() {
          if( !this.selectedTransfers.length ) {
             this.filteredTickets = [];
          }
 
-         this.sortOrFilterTickets();
+         this.changeTicketList();
          this.renderFirstTickets();
       },
 
       selectedTransfers: {
          handler( newSelectedTransfers ) {
-            if( !newSelectedTransfers.length && !this.activeTab ) {
-               this.filteredTickets = [];
+            const isNotChangeTicketList = !newSelectedTransfers.length && !this.activeTab;
 
-               return;
+            if( isNotChangeTicketList ) {
+               this.filteredTickets = [];
             }
 
-            this.sortOrFilterTickets();
+            this.changeTicketList();
             this.renderFirstTickets();
          },
          deep: true,
@@ -121,7 +117,7 @@ export default {
          this.renderedTickets += 5;
       },
 
-      sortOrFilterTickets() {
+      changeTicketList() {
          if( this.activeTab ) {
             if( this.selectedTransfers.length ) {
                this.filterTransfers();
