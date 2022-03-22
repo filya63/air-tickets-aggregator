@@ -21,14 +21,14 @@
 
 <script>
 import TicketsItem from './TicketsItem.vue';
-import api from '../api';
 import ErrorMessage from './ErrorMessage.vue';
+import api from '../api';
 
 export default {
    components: {
-    TicketsItem,
-    ErrorMessage,
-},
+      TicketsItem,
+      ErrorMessage,
+   },
 
    props: {
       selectedTransfers: {
@@ -129,12 +129,12 @@ export default {
          if( this.activeTab ) {
             if( this.selectedTransfers.length ) {
                this.filterTransfers();
-               this.sortTickets('changedTicketList');
+               this.sortTickets( 'changedTicketList' );
 
                return;
             }
 
-            this.sortTickets('originalTicketList');
+            this.sortTickets( 'originalTicketList' );
          }
 
          if( this.selectedTransfers.length ) {
@@ -143,7 +143,7 @@ export default {
       },
 
       sortTickets( tickets ) {
-         this[tickets].sort(( nextTicket, currentTicket ) => {
+         this[ tickets ].sort(( nextTicket, currentTicket ) => {
             if( this.activeTab === 'tab-low-cost' ) {
                return nextTicket.price - currentTicket.price;
             }
