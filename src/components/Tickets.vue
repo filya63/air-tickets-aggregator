@@ -42,10 +42,10 @@ export default {
 
    data() {
       return {
-         originalTickets: [],
+         originalTicketList: [], // Список билетов полученных с сервера
+         changedTicketList: [], // Измененный список билетов по неким критериям
+         tickets: [], // Билеты для отрисовки пользователю
          searchId: null,
-         tickets: [],
-         filteredTickets: [],
          renderedTickets: 5,
          errorMessage: '',
       };
@@ -54,7 +54,7 @@ export default {
    watch: {
       activeTab() {
          if( !this.selectedTransfers.length ) {
-            this.filteredTickets = [];
+            this.changedTicketList = [];
          }
 
          this.changeTicketList();
@@ -66,7 +66,7 @@ export default {
             const isNotChangeTicketList = !newSelectedTransfers.length && !this.activeTab;
 
             if( isNotChangeTicketList ) {
-               this.filteredTickets = [];
+               this.changedTicketList = [];
             }
 
             this.changeTicketList();
@@ -91,26 +91,26 @@ export default {
             this.errorMessage = error;
          }
 
-         this.originalTickets = tickets;
+         this.originalTicketList = tickets;
       },
 
       renderFirstTickets() {
          this.renderedTickets = 5;
 
-         if( this.filteredTickets.length ) {
-            this.tickets = this.filteredTickets.slice( 0, this.renderedTickets );
+         if( this.changedTicketList.length ) {
+            this.tickets = this.changedTicketList.slice( 0, this.renderedTickets );
 
             return;
          }
 
-         this.tickets = this.originalTickets.slice( 0, this.renderedTickets );
+         this.tickets = this.originalTicketList.slice( 0, this.renderedTickets );
       },
 
       showMoreTickets() {
-         let nextTickets = this.originalTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+         let nextTickets = this.originalTicketList.slice( this.renderedTickets, this.renderedTickets + 5 );
 
-         if( this.filteredTickets.length ) {
-            nextTickets = this.filteredTickets.slice( this.renderedTickets, this.renderedTickets + 5 );
+         if( this.changedTicketList.length ) {
+            nextTickets = this.changedTicketList.slice( this.renderedTickets, this.renderedTickets + 5 );
          }
 
          this.tickets.push( ...nextTickets );
@@ -121,12 +121,12 @@ export default {
          if( this.activeTab ) {
             if( this.selectedTransfers.length ) {
                this.filterTransfers();
-               this.sortTickets('filteredTickets');
+               this.sortTickets('changedTicketList');
 
                return;
             }
 
-            this.sortTickets('originalTickets');
+            this.sortTickets('originalTicketList');
          }
 
          if( this.selectedTransfers.length ) {
@@ -145,13 +145,13 @@ export default {
       },
 
       filterTransfers() {
-         this.filteredTickets = this.originalTickets.filter(( ticket ) => {
+         this.changedTicketList = this.originalTicketList.filter(( ticket ) => {
             return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
          });
       },
 
       normalizeTicketsInfo() {
-         this.originalTickets = this.originalTickets.map( ( ticket ) =>  {
+         this.originalTicketList = this.originalTicketList.map( ( ticket ) =>  {
 
             // Нормализуем данные со временем в билете в одну сторону
             const dateTicketThere = new Date( ticket.segments[0].date );
