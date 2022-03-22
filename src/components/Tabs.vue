@@ -1,14 +1,14 @@
 <template>
     <nav class="tabs">
         <button
-            :class="isTabLowCost"
+            :class="{ active: isTabLowCost }"
             class="tabs__item"
             @click="onClickLowCostTickets"
         >
             Самый дешевый
         </button>
         <button
-            :class="isTabFast"
+            :class="{ active: isTabFast }"
             class="tabs__item"
             @click="onClickFastTickets"
         >
@@ -31,39 +31,31 @@ export default {
         onClickLowCostTickets() {
             if( this.activeTab === 'tab-low-cost' ) {
                 this.activeTab = null;
-                this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
-
-                return;
+            } else {
+                this.activeTab = 'tab-low-cost';
             }
 
-            this.activeTab = 'tab-low-cost';
             this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
         },
 
         onClickFastTickets() {
             if( this.activeTab === 'tab-fast' ) {
                 this.activeTab = null;
-                this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
-
-                return;
+            } else {
+                this.activeTab = 'tab-fast';
             }
 
-            this.activeTab = 'tab-fast';
             this.$emit( CHANGE_ACTIVE_TAB_EVENT, this.activeTab );
         },
     },
 
     computed: {
         isTabLowCost() {
-            return this.activeTab === 'tab-low-cost'
-                ? 'active'
-                : false
+            return this.activeTab === 'tab-low-cost';
         },
 
         isTabFast() {
-            return this.activeTab === 'tab-fast'
-                ? 'active'
-                : false
+            return this.activeTab === 'tab-fast';
         },
     },
 };

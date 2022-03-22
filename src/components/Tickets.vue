@@ -86,20 +86,19 @@ export default {
 
    methods: {
       async getSearchId() {
-         const searchId = await api.getSearchId();
-         this.searchId = searchId;
+         try {
+            this.searchId = await api.getSearchId();
+         } catch( errorMessage ) {
+            this.errorMessage = errorMessage;
+         }
       },
 
       async getTickets() {
-         let tickets;
-
          try {
-            tickets = await api.getTickets( this.searchId );
-         } catch( error ) {
-            this.errorMessage = error;
+            this.originalTicketList = await api.getTickets( this.searchId );
+         } catch( errorMessage ) {
+            this.errorMessage = errorMessage;
          }
-
-         this.originalTicketList = tickets;
       },
 
       renderFirstTickets() {
@@ -148,28 +147,31 @@ export default {
                return nextTicket.price - currentTicket.price;
             }
 
-            return ( nextTicket.segments[0].duration + nextTicket.segments[1].duration ) - ( currentTicket.segments[0].duration + currentTicket.segments[1].duration )
+            const [ nextTicketThere, nextTicketBack ] = nextTicket.segments;
+            const [ currentTicketThere, currentTicketBack ] = currentTicket.segments;
+            return ( nextTicketThere.duration + nextTicketBack.duration ) - ( currentTicketThere.duration + currentTicketBack.duration )
          });
       },
 
       filterTransfers() {
          this.changedTicketList = this.originalTicketList.filter(( ticket ) => {
-            return this.selectedTransfers.indexOf( ticket.segments[0].stops.length ) !== -1;
+            return this.selectedTransfers.includes( ticket.segments[0].stops.length );
          });
       },
 
       normalizeTicketsInfo() {
          this.originalTicketList = this.originalTicketList.map( ( ticket ) =>  {
+            const [ ticketThere, ticketBack ] = ticket.segments;
 
             // Нормализуем данные со временем в билете в одну сторону
-            const dateTicketThere = new Date( ticket.segments[0].date );
-            ticket.segments[0].normalizedDuration = this.normalizeMinutes( ticket.segments[0].duration );
-            ticket.segments[0].date = this.normalizeFullDate( dateTicketThere );
+            const dateTicketThere = new Date( ticketThere.date );
+            ticketThere.normalizedDuration = this.normalizeMinutes( ticketThere.duration );
+            ticketThere.date = this.normalizeFullDate( dateTicketThere );
 
             // Нормализуем данные со временем в билете в другую сторону
-            const dateTicketBack = new Date( ticket.segments[1].date );
-            ticket.segments[1].normalizedDuration = this.normalizeMinutes( ticket.segments[1].duration );
-            ticket.segments[1].date = this.normalizeFullDate( dateTicketBack );
+            const dateTicketBack = new Date( ticketBack.date );
+            ticketBack.normalizedDuration = this.normalizeMinutes( ticketBack.duration );
+            ticketBack.date = this.normalizeFullDate( dateTicketBack );
 
             return ticket;
          } );
