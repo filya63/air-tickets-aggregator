@@ -11,6 +11,7 @@
       :error-message="errorMessage"
    />
    <button
+      v-if="isShowButtonMoreTickets"
       class="tickets-pagination__button"
       :disabled="isErrorMessage"
       @click="showMoreTickets"
@@ -81,7 +82,15 @@ export default {
    computed: {
       isErrorMessage() {
          return !!this.errorMessage;
-      }
+      },
+
+      isShowButtonMoreTickets() {
+         if( this.changedTicketList.length ) {
+            return this.renderedTickets <= this.changedTicketList.length;
+         }
+
+         return this.renderedTickets <= this.originalTicketList.length;
+      },
    },
 
    methods: {
