@@ -24,6 +24,8 @@
 import TicketsItem from './TicketsItem.vue';
 import ErrorMessage from './ErrorMessage.vue';
 
+import { normalizeMinutes, normalizeFullDate } from '../helpers/timeNormalizers';
+
 import { MAX_NUMBER_RETRIES } from '../constants';
 import api from '../api';
 
@@ -119,6 +121,24 @@ export default {
             return this.getTickets( retries - 1 );
          }
       },
+      
+      normalizeTicketsInfo() {
+         this.originalTicketList = this.originalTicketList.map( ( ticket ) =>  {
+            const [ ticketThere, ticketBack ] = ticket.segments;
+
+            // Нормализуем данные со временем в билете в одну сторону
+            const dateTicketThere = new Date( ticketThere.date );
+            ticketThere.normalizedDuration = normalizeMinutes( ticketThere.duration );
+            ticketThere.date = normalizeFullDate( dateTicketThere );
+
+            // Нормализуем данные со временем в билете в другую сторону
+            const dateTicketBack = new Date( ticketBack.date );
+            ticketBack.normalizedDuration = normalizeMinutes( ticketBack.duration );
+            ticketBack.date = normalizeFullDate( dateTicketBack );
+
+            return ticket;
+         } );
+      },
 
       renderFirstTickets() {
          this.renderedTickets = 5;
@@ -178,45 +198,6 @@ export default {
          });
       },
 
-      normalizeTicketsInfo() {
-         this.originalTicketList = this.originalTicketList.map( ( ticket ) =>  {
-            const [ ticketThere, ticketBack ] = ticket.segments;
-
-            // Нормализуем данные со временем в билете в одну сторону
-            const dateTicketThere = new Date( ticketThere.date );
-            ticketThere.normalizedDuration = this.normalizeMinutes( ticketThere.duration );
-            ticketThere.date = this.normalizeFullDate( dateTicketThere );
-
-            // Нормализуем данные со временем в билете в другую сторону
-            const dateTicketBack = new Date( ticketBack.date );
-            ticketBack.normalizedDuration = this.normalizeMinutes( ticketBack.duration );
-            ticketBack.date = this.normalizeFullDate( dateTicketBack );
-
-            return ticket;
-         } );
-      },
-
-      normalizeFullDate( date ) {
-         const minutes = date.getMinutes();
-         const hours = date.getHours();
-         const days = date.getDate();
-         const month = date.getMonth() + 1;
-
-         return {
-            minutes: String(minutes).padStart(2, '0'),
-            hours: String(hours).padStart(2, '0'),
-            days: String(days).padStart(2, '0'),
-            month: String(month).padStart(2, '0'),
-            year: date.getFullYear(),
-         }
-      },
-
-      normalizeMinutes( initialMinutes ) {
-         const hours = Math.trunc( initialMinutes / 60 );
-         const minutes = initialMinutes % 60;
-
-         return `${hours}ч ${minutes}м`;
-      }
    },
    
    async created() {
