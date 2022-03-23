@@ -23,6 +23,8 @@
 <script>
 import TicketsItem from './TicketsItem.vue';
 import ErrorMessage from './ErrorMessage.vue';
+
+import { MAX_NUMBER_RETRIES } from '../constants';
 import api from '../api';
 
 export default {
@@ -94,19 +96,27 @@ export default {
    },
 
    methods: {
-      async getSearchId() {
+      async getSearchId( retries ) {
          try {
             this.searchId = await api.getSearchId();
          } catch( errorMessage ) {
-            this.errorMessage = errorMessage;
+            if( retries <= 0 ) {
+               this.errorMessage = errorMessage;
+            }
+
+            return this.getSearchId( retries - 1 );
          }
       },
 
-      async getTickets() {
+      async getTickets( retries ) {
          try {
             this.originalTicketList = await api.getTickets( this.searchId );
          } catch( errorMessage ) {
-            this.errorMessage = errorMessage;
+            if( retries <= 0 ) {
+               this.errorMessage = errorMessage;
+            }
+
+            return this.getTickets( retries - 1 );
          }
       },
 
@@ -210,8 +220,8 @@ export default {
    },
    
    async created() {
-      await this.getSearchId();
-      await this.getTickets();
+      await this.getSearchId( MAX_NUMBER_RETRIES );
+      await this.getTickets( MAX_NUMBER_RETRIES );
 
       this.normalizeTicketsInfo();
       this.renderFirstTickets();
