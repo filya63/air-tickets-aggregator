@@ -16,7 +16,7 @@ export default {
         try {
             const response = await fetch(`${AVIASALES_URL}/tickets?searchId=${searchId}`);
             const { tickets } = await response.json();
-            
+
             return tickets;
         } catch( error ) {
             throw new Error( error.message );
