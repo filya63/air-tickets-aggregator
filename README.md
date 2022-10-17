@@ -8,7 +8,7 @@ Implementation of the service of selecting air tickets by selected filters. Эт
 - BEM-naming;
 
 ## How to use
-1. Open terminal on your folder of project and write this:
+1. Open terminal in your folder of project and write this:
 ```sh
 git clone https://github.com/filya63/air-tickets-aggregator.git ./
 ```
@@ -19,4 +19,4 @@ or
 npm i && npm run serve
 ```
 
-> Note: install and run project need with version node < 12.
+> Note: install and run project with version node >= 12.
