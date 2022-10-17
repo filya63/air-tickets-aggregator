@@ -10,7 +10,7 @@ Implementation of the service of selecting air tickets by selected filters.
 ## How to use
 1. Open terminal on your folder of project and write this:
 ```sh
-git clone https://github.com/filya63/air-tickets-aggregator.git
+git clone https://github.com/filya63/air-tickets-aggregator.git ./
 ```
 2. Install dependencies of project and run webpack:
 ```sh
